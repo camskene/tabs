@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rounded Tabs 1</title>
+  <style>
+    body {
+      zoom: 2;
+    }
+
+    [role="tablist"] {
+      --border-radius: 8px;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    [role="tablist"]::before {
+      border-bottom: 1px solid #aaa;
+      bottom: 0;
+      content: "";
+      left: 0;
+      position: absolute;
+      width: 100%;
+      z-index: 1;
+    }
+
+    [role="tab"] {
+      --tab-background-color: #ccc;
+      background: var(--tab-background-color);
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      border: 1px solid #aaa;
+      margin: 0 -1px 0 0;
+      padding: 0.25em 1em;
+      position: relative;
+    }
+
+    [role="tab"]:not(:first-child)[aria-selected="true"]::after,
+    [role="tab"][aria-selected="true"]:first-child::before,
+    [role="tab"]:not(:first-child)::before,
+    [role="tab"]:last-child::after {
+      border-radius: 0 0 0 var(--border-radius);
+      border: solid #aaa;
+      border-width: 0 0 1px 1px;
+      bottom: -1px;
+      box-shadow: -1px 1px 0px 1px var(--tab-background-color);
+      content: " ";
+      height: 8px;
+      left: -1px;
+      pointer-events: none;
+      position: absolute;
+      width: 8px;
+    }
+
+    [role="tab"]:last-child::before {
+      box-shadow: -2px 1px 0px 1px var(--tab-background-color);
+      left: auto;
+      right: -9px;
+    }
+
+    /* Selected tab */
+    [role="tab"][aria-selected="true"] {
+      background: #fff;
+      border-bottom-color: #fff;
+      z-index: 1;
+    }
+
+    /* bottom right corner */
+    [role="tab"][aria-selected="true"]::before {
+      box-shadow: -2px 1px 0px 1px #fff;
+      left: auto;
+      right: -9px;
+    }
+
+    /* bottom left corner */
+    [role="tab"]:not(:first-child)[aria-selected="true"]::after {
+      border-radius: 0 0 var(--border-radius) 0;
+      border-width: 0 1px 1px 0;
+      box-shadow: 2px 1px 0px 1px #fff;
+      left: -9px;
+    }
+
+    /* bottom right corner */
+    [role="tab"][aria-selected="true"]:first-child::before {
+      box-shadow: -2px 1px 0px 1px #fff;
+      left: auto;
+      right: -9px;
+    }
+
+    /* Focus styles */
+    [role="tab"]:focus {
+      outline: 0;
+    }
+
+    [role="tab"]:focus-visible [data-focus-ring] {
+      border-radius: 7px;
+      bottom: 0;
+      box-shadow: blue 0 0 0 1px;
+      left: 0;
+      pointer-events: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 2;
+    }
+
+    [role="tab"]:first-child:focus-visible [data-focus-ring] {
+      border-bottom-left-radius: 0;
+    }
+  </style>
+</head>
+<body>
+  <div role="tablist">
+    <button aria-selected="true" role="tab">
+      Tab
+      <span data-focus-ring></span>
+    </button>
+    <button role="tab">
+      Tab
+      <span data-focus-ring></span>
+    </button>
+    <button role="tab">
+      Tab
+      <span data-focus-ring></span>
+    </button>
+    <button role="tab">
+      Tab
+      <span data-focus-ring></span>
+    </button>
+    <button role="tab">
+      Tab
+      <span data-focus-ring></span>
+    </button>
+  </div>
+
+  <script>
+    let tablist = document.querySelector('[role="tablist"]');
+    let tabs = document.querySelectorAll('[role="tab"]');
+
+    tablist.addEventListener('click', (e) => {
+      tabs.forEach((tab) => tab.setAttribute('aria-selected', false));
+
+      e.target.setAttribute('aria-selected', true);
+    });
+  </script>
+</body>
+</html>
